@@ -18,4 +18,5 @@ class DashboardController extends Controller
         $products= Product::count();
         return view('dashboard',compact('categories','products'));
     }
+    // sohan 
 }
