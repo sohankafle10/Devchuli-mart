@@ -11,7 +11,7 @@ class PagesController extends Controller
 {
     public function index()
     {
-        $products = Product::where('status', 'Show')->latest()->limit(8)->get();
+        $products = Product::where('status', 'Show')->latest()->limit(12)->get();
 
                 return view('welcome', compact('products'));
     }
@@ -25,7 +25,7 @@ class PagesController extends Controller
     public function categoryproduct($id)
     {
         $category = Categories::find($id);
-        $products = product:: where('status','show')->where('category_id', $id)->paginate(1);
+        $products = product:: where('status','show')->where('category_id', $id)->paginate(12);
 
             return view('categoryproduct',compact('products','category'));
     }
@@ -46,6 +46,13 @@ class PagesController extends Controller
         $qry=$request->search;
         $products=Product::where('name','like','%'.$qry.'%')->orWhere('description','like','%'.$qry.'%')->get();
         return view ('search',compact('products'));
+    }
+
+    // profile view
+    public function profile()
+    {
+
+        return view('profileview');
     }
 }
 

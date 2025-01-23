@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PagesController;
@@ -11,10 +12,13 @@ use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/',[PagesController::class,'index'])->name('home');
 Route::get('/viewproduct/{id}',[PagesController::class,'viewproduct'])->name('viewproduct');
 Route::get('/categoryproduct/{id}',[PagesController::class,'categoryproduct'])->name('categoryproduct');
 Route::get('/search',[PagesController::class,'search'])->name('search');
+// contact
+Route::get('/contact',[ContactController::class,'index'])->name('contact');
 
 Route::middleware('auth')->group(function(){
 Route::post('cart/store',[CartController::class,'store'])->name('cart.store');
@@ -61,8 +65,8 @@ Route::get('/dashboard',[DashboardController::class,'dashboard'])->middleware(['
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 

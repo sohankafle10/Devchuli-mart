@@ -15,7 +15,7 @@
                             <h1 class="text-lg font-bold">{{ $product->name }}</h1>
                             @if ($product->discounted_price != '')
                                 <p class="text-lg font-bold text-blue-900">Rs. {{ $product->discounted_price }}
-                                    <span class="line-through font-semibold text-lg  font-bold text-red-600">Rs 2000</span>
+                                    <span class="line-through font-semibold text-lg  font-bold text-red-600">{{$product->price}}</span>
                                 </p>
                             @else
                                 <p class="text-lg font-bold text-blue-900">Rs.{{ $product->price }} </p>

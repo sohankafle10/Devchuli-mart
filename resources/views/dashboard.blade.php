@@ -1,60 +1,118 @@
 @extends('layouts.app')
+
 @section('content')
-    <h1 class="text-3xl font-bold text-blue-900">Dashboard</h1>
-    <hr class="h-1 bg-red-700">
-    <div class="mt-5 grid grid-cols-3 gap-8">
-        <div class="bg-blue-100 p-5 shadow rounded-lg">
-            <h2 class="text-2xl font-bold text-blue-900">Categories</h2>
-            <p>Total Categories:{{ $categories }}</p>
-        </div>
-
-        <div class="bg-purple-100 p-5 shadow rounded-lg">
-            <h2 class="text-2xl font-bold text-blue-900">Products</h2>
-            <p>Total Products:{{ $products }}</p>
-        </div>
-
-        <div class="bg-red-100 p-5 shadow rounded-lg">
-            <h2 class="text-2xl font-bold text-blue-900">Pending Orders</h2>
-            <p>Total PendingOrders:5</p>
-        </div>
-
-        <div class="bg-green-100 p-5 shadow rounded-lg">
-            <h2 class="text-2xl font-bold text-blue-900">Processing Orders</h2>
-            <p>Total ProcessingOrder:5</p>
-        </div>
-
-        <div class="bg-pink-100 p-5 shadow rounded-lg">
-            <h2 class="text-2xl font-bold text-blue-900">Complete Orders</h2>
-            <p>Total CompleteOrder:5</p>
-        </div>
-
-        <div class="bg-orange-100 p-5 shadow rounded-lg">
-            <h2 class="text-2xl font-bold text-blue-900">Users</h2>
-            <p>Total Users:5</p>
-        </div>
-        <canvas id="myChart" width="400" height="400"></canvas>
+<div class="container mx-auto px-6 py-8">
+    <!-- Dashboard Header -->
+    <div class="mb-8">
+        <h1 class="text-4xl font-extrabold text-gray-900">Dashboard</h1>
+        <!-- <p class="text-sm text-gray-500">Overview of key metrics and statistics</p> -->
+        <hr class="mt-4 border-t border-gray-300">
     </div>
-    <script>
-        let chart = document.getElementById('myChart');
-        const myChart = new Chart(chart, {
-            type: 'pie',
-            data: {
-                labels: [
-                    'Red',
-                    'Blue',
-                    'Yellow'
-                ],
-                datasets: [{
-                    label: 'My First Dataset',
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 205, 86)'
-                    ],
-                    hoverOffset: 4
-                }]
-            }
-        });
-    </script>
+
+    <!-- Stats Section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Categories -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-blue-700 text-white p-6 rounded-lg shadow-md hover:shadow-lg">
+            <div>
+                <h2 class="text-2xl font-semibold">Categories</h2>
+                <p class="text-lg mt-2">Total: <span class="font-bold">{{ $categories }}</span></p>
+            </div>
+            <i class="fas fa-folder text-4xl"></i>
+        </div>
+
+        <!-- Products -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-md hover:shadow-lg">
+            <div>
+                <h2 class="text-2xl font-semibold">Products</h2>
+                <p class="text-lg mt-2">Total: <span class="font-bold">{{ $products }}</span></p>
+            </div>
+            <i class="fas fa-boxes text-4xl"></i>
+        </div>
+
+        <!-- Pending Orders -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-red-500 to-red-700 text-white p-6 rounded-lg shadow-md hover:shadow-lg">
+            <div>
+                <h2 class="text-2xl font-semibold">Pending Orders</h2>
+                <p class="text-lg mt-2">Total: <span class="font-bold">{{ $pending_order }}</span></p>
+            </div>
+            <i class="fas fa-clock text-4xl"></i>
+        </div>
+
+        <!-- Processing Orders -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-green-500 to-green-700 text-white p-6 rounded-lg shadow-md hover:shadow-lg">
+            <div>
+                <h2 class="text-2xl font-semibold">Processing Orders</h2>
+                <p class="text-lg mt-2">Total: <span class="font-bold">{{ $processing_order }}</span></p>
+            </div>
+            <i class="fas fa-sync-alt text-4xl"></i>
+        </div>
+
+        <!-- Complete Orders -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-6 rounded-lg shadow-md hover:shadow-lg">
+            <div>
+                <h2 class="text-2xl font-semibold">Complete Orders</h2>
+                <p class="text-lg mt-2">Total: <span class="font-bold">{{ $completed_order }}</span></p>
+            </div>
+            <i class="fas fa-check-circle text-4xl"></i>
+        </div>
+
+        <!-- Users -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-pink-500 to-pink-700 text-white p-6 rounded-lg shadow-md hover:shadow-lg">
+            <div>
+                <h2 class="text-2xl font-semibold">Users</h2>
+                <p class="text-lg mt-2">Total: <span class="font-bold">{{ $users }}</span></p>
+            </div>
+            <i class="fas fa-users text-4xl"></i>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="my-8">
+        <h2 class="text-2xl font-semibold text-gray-900">Item Overview</h2>
+        <canvas id="dashboardChart" class="w-full h-80"></canvas>
+    </div>
+</div>
+
 @endsection
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('dashboardChart');
+        
+        // Only initialize the chart if it doesn't already exist
+        if (ctx && !ctx.chart) {
+            var dashboardChart = new Chart(ctx, {
+                type: 'line', // Change the chart type to 'line'
+                data: {
+                    labels: ['Categories', 'Products', 'Pending Orders', 'Processing Orders', 'Complete Orders', 'Users'],
+                    datasets: [{
+                        label: 'Total Items',
+                        data: [
+                            {{ $categories }},
+                            {{ $products }},
+                            {{ $pending_order }},
+                            {{ $processing_order }},
+                            {{ $completed_order }},
+                            {{ $users }}
+                        ],
+                        fill: false, // To make it a simple line without filling
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+

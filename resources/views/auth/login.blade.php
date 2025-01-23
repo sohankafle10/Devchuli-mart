@@ -26,7 +26,11 @@
                 <div class=" text-right mb-4">
                     <a href="{{ route('password.request') }}" class="text-blue-900 text-sm">Forgot Password ?</a>
                 </div>
+                
                 <button type="submit" class="w-full bg-green-700 text-white rounded-lg px-4 py-2">Login</button>
+                <div class=" text-left mb-4">
+                    <a href="{{ route('register') }}" class="text-blue-900 text-sm">Dont have account?Register</a>
+                </div>
             </form>
 
         </div>

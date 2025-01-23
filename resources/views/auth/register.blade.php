@@ -1,69 +1,134 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-        @csrf
+@extends('layouts.master')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@section('content')
+    <div class="min-h-screen flex items-center justify-center px-4 py-8">
+        <!-- Form Container -->
+        <div class="w-full sm:w-96 md:w-3/4 lg:w-1/3 bg-white shadow-xl rounded-xl p-6 space-y-6">
+
+            <!-- Logo and Heading -->
+            <div class="text-center">
+                <img src="{{ asset('images/devchulimart-removebg-preview.png') }}" alt="Devchuli Mart Logo" class="mx-auto w-24 mb-4">
+                <h2 class="text-2xl font-semibold text-[#eb456f]">Create Your Account</h2>
+                
+            </div>
+
+            <!-- Registration Form -->
+            <form method="POST" action="{{ route('register')}}" enctype="multipart/form-data">
+                @csrf
+
+                <!-- Profile Picture -->
+                <div class="mb-4">
+                    <label for="profilepicture" class="block text-sm font-medium text-gray-700">Profile Picture</label>
+                    <input id="profilepicture" type="file" name="profilepicture" value="{{ old('profilepicture') }}"
+                        class="mt-1 block w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2"
+                        required>
+                    @error('profilepicture')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Full Name -->
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input id="name" type="text" name="name" value="{{ old('name') }}"
+                        class="mt-1 block w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2" required>
+                    @error('name')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Email -->
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input id="email" type="email" name="email" 
+                        class="mt-1 block w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2" required>
+                    @error('email')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Phone Number -->
+                <div class="mb-4">
+                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input id="phone" type="tel" name="phone" value="{{ old('phone') }}"
+                        class="mt-1 block w-full p-3 text-sm border border-gray-300 rounded-md" required>
+                    @error('phone')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Address -->
+                <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input id="address" type="text" name="address" value="{{ old('address') }}"
+                        class="mt-1 block w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2" required>
+                    @error('address')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Gender -->
+                <div class="mb-4">
+                    <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                    <div class="flex items-center space-x-4">
+                        <label for="male" class="inline-flex items-center space-x-2">
+                            <input type="radio" name="gender" value="male"
+                                class="h-4 w-4 text-[#eb456f] focus:ring-[#eb456f]" required>
+                            <span class="text-sm text-gray-700">Male</span>
+                        </label>
+                        <label for="female" class="inline-flex items-center space-x-2">
+                            <input type="radio" name="gender" value="female"
+                                class="h-4 w-4 text-[#eb456f] focus:ring-[#eb456f]" required>
+                            <span class="text-sm text-gray-700">Female</span>
+                        </label>
+                        <label for="other" class="inline-flex items-center space-x-2">
+                            <input type="radio" name="gender" value="other"
+                                class="h-4 w-4 text-[#eb456f] focus:ring-[#eb456f]" required>
+                            <span class="text-sm text-gray-700">Other</span>
+                        </label>
+                    </div>
+                    @error('gender')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input id="password" type="password" name="password"
+                        class="mt-1 block w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2" required>
+                    @error('password')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="mb-6">
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm
+                        Password</label>
+                    <input id="password_confirmation" type="password" name="password_confirmation"
+                        class="mt-1 block w-full p-3 text-sm border border-gray-300 rounded-lg focus:ring-2" required>
+                    @error('password_confirmation')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mb-4">
+                    <button type="submit"
+                        class="w-full py-3 bg-[#eb456f] text-white text-sm font-semibold rounded-lg hover:bg-[#eb456f] focus:outline-none focus:ring-2 focus:ring-[#eb456f]">
+                        Register
+                    </button>
+                </div>
+
+                <!-- Login Link -->
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        Already have an account? <a href="{{ route('login') }}"
+                            class="text-[#eb456f] hover:text-[#eb456f]">Login here</a>
+                    </p>
+                </div>
+            </form>
         </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Phone -->
-        <div class="mt-4">
-            <x-input-label for="phone" :value="__('Phone')" />
-            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="tel" />
-            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-        </div>
-
-        <!-- Profile Picture -->
-        <div class="mt-4">
-            <x-input-label for="profilepicture" :value="__('ProfilePicture')" />
-            <input id="profilepicture" class="block mt-1 w-full" type="file" name="profilepicture" accept="image/*" />
-            <x-input-error :messages="$errors->get('profilepicture')" class="mt-2" />
-        </div>
-
-        <!-- Address -->
-        <div class="mt-4">
-            <x-input-label for="address" :value="__('Address')" />
-            <input id="address" name="address" class="block mt-1 w-full" type="text" required>{{ old('address') }}</input>
-            <x-input-error :messages="$errors->get('address')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full"
-                          type="password"
-                          name="password"
-                          required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                          type="password"
-                          name="password_confirmation" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+@endsection

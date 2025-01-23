@@ -14,7 +14,9 @@
                     <thead>
                         <tr class="text-sm text-gray-700 uppercase bg-gray-100">
                             <th class="px-4 py-3 text-left">ID</th>
-                            <th class="px-4 py-3 text-left">Product</th>
+                            <th class="px-4 py-3 text-left">Product</th>                            
+                            <th class="px-4 py-3 text-left">Photo</th>                     
+
                             <th class="px-4 py-3 text-left">Quantity</th>
                             <th class="px-4 py-3 text-left">Price</th>
                             <th class="px-4 py-3 text-left">Status</th>
@@ -34,6 +36,13 @@
                                         <span class="text-red-500">Product not available</span>
                                     @endif
                                 </td>
+                                <td class="px-4 py-3">
+                                    @if ($order->product)
+                                        <img src="{{ asset('images/products/' . $order->product->photopath) }}"
+                                            alt="{{ $order->product->name }}" class="w-20 h-20 object-cover">
+                                    @else
+                                        <span class="text-red-500">Product not available</span>
+                                    @endif
                                 <td class="px-4 py-3">{{ $order->qty }}</td>
                                 <td class="px-4 py-3">Rs.{{ number_format($order->price, 2) }}</td>
                                 <td class="px-4 py-3">

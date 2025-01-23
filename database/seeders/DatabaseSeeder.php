@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
             'email'=>'admin@lict.com',
             'password'=>bcrypt('admin123'),
             'role'=>'admin',
+            'phone'=>'9800000000',
+            'address'=>'Kathmandu',
+            
         ]);
     }
 }
