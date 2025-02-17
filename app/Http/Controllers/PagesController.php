@@ -45,7 +45,8 @@ class PagesController extends Controller
     public function search(Request $request){
         $qry=$request->search;
         $products=Product::where('name','like','%'.$qry.'%')->orWhere('description','like','%'.$qry.'%')->get();
-        return view ('search',compact('products'));
+        $relatedproducts = Product::where('category_id',$products[0]->category_id)->where('id','!=',$products[0]->id)->limit(4)->get();
+        return view ('search',compact('products','qry','relatedproducts'));
     }
 
     // profile view

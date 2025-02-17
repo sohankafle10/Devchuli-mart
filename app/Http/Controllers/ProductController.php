@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -79,17 +80,35 @@ class ProductController extends Controller
             }
         }
         $product->update($data);
-        return redirect(route('product.index'))->with('success', 'Product Updated Successfully');
+        return redirect(route('product.index'))->with('success', 'product Updated successfully');
     }
 
     public function destroy($id) {
 
-        $product=Product::find($id);
-        $photo=public_path('images/products/'.$product->photopath);
-        if(file_exists($photo)){
-            unlink($photo);
+      
+            $product = Product::findOrFail($id);
+        
+            // Check if the product is in any pending or processing orders
+            $hasPendingOrders = Order::where('product_id', $id)
+                                    ->whereIn('status', ['pending', 'processing'])
+                                    ->exists();
+        
+            if ($hasPendingOrders) {
+                return redirect()->route('product.index')->with('success', 'Cannot delete product. It is associated with a pending or processing order.');
+            }
+        
+            // Get the product image path
+            $photoPath = public_path('images/products/' . $product->photopath);
+        
+            // Delete the image if it exists
+            if (file_exists($photoPath) && is_file($photoPath)) {
+                unlink($photoPath);
+            }
+        
+            // Delete the product
+            $product->delete();
+        
+            return redirect()->route('product.index')->with('success', 'Product Deleted Successfully')->with('success', 'Product delete Successfully');
         }
-        $product->delete();
-        return redirect()->route('product.index')->with('success','Product Deleted Successfully');
-    }
+        
 }
