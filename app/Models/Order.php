@@ -21,6 +21,13 @@ class Order extends Model
         return $this->belongsTo(Product::class);
 
     }
+
+    public function getPaymentMethodAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    
     
 
 }

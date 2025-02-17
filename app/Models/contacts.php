@@ -9,3 +9,4 @@ class contacts extends Model
     
     protected $guarded = [];
 }
+
