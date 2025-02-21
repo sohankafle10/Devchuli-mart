@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('photopath');
             $table->string('status')->default('Show');
             $table->timestamps();
+
         });
     }
 

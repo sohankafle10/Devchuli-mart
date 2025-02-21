@@ -62,13 +62,15 @@
                             class="h-64 w-full object-cover rounded-t-lg">
                         <div class="p-4">
                             <h1 class="text-lg font-bold">{{ $rproduct->name }}</h1>
-                            @if ($rproduct->discounted_price != '')
-                                <p class="text-lg font-bold text-blue-900">Rs. {{ $rproduct->discounted_price }}
-                                    <span class="line-through font-semibold text-lg  font-bold text-red-600">Rs 2000</span>
-                                </p>
-                            @else
-                                <p class="text-lg font-bold text-blue-900">Rs.{{ $rproduct->price }} </p>
-                            @endif
+                            <p class="text-blue-900 font-bold text-2xl">
+
+@if ($product->discounted_price != '')
+    Rs.{{ $product->discounted_price }}
+    <span class="line-through font-semibold text-sm text-red-600">Rs.{{ $product->price }}</span>
+@else
+    Rs.{{ $product->price }}
+@endif
+</p>
                         </div>
                     </div>
 
