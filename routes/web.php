@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,9 @@ Route::get('/category/edit/{id}',[CategoryController::class,'edit'])->name('cate
 Route::post('/category/update/{id}',[CategoryController::class,'update'])->name('category.update');
 Route::delete('/category/destroy',[CategoryController::class,'destroy'])->name('category.destroy');
 
+//show user
+Route::get('/user/show', [DashboardController::class, 'user'])->name('user.show');
+
 
 //product
 Route::get('/product',[ProductController::class,'index'])->name('product.index');
@@ -68,6 +72,17 @@ Route::middleware('auth')->group(function () {
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+
+
+
+
+
 
 
 

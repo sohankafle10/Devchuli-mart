@@ -29,15 +29,21 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                'unique:'.User::class,
+                'regex:/^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/'
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => 'required|string|max:15',
             'profilepicture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'address' => 'required|string|max:255',
-
         ]);
 
         if ($request->hasFile('profilepicture')) {
@@ -53,8 +59,6 @@ class RegisteredUserController extends Controller
             'phone' => $request->phone,
             'address' => $request->address,
             'profilepicture' => isset($filename) ? $filename : null,
-
-
         ]);
 
         event(new Registered($user));

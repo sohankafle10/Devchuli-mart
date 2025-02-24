@@ -1,4 +1,4 @@
-<!-- @extends(auth()->user()->role == 'admin' ? 'layouts.app' : 'layouts.master') -->
+
 @extends('layouts.master')
 @section('content')
 <div class="container mx-auto">

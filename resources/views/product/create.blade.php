@@ -47,7 +47,7 @@
      @enderror
 
      <div class="flex mt-4 justify-center gap-4">
-        <input type="submit" value="Add category" class="bg-blue-600 text-white px-5 py-3 rounded-lg curser-pointer">
+        <input type="submit" value="Add Product" class="bg-blue-600 text-white px-5 py-3 rounded-lg curser-pointer">
         <a href="{{route('product.index')}}" class="bg-red-600 text-white px-10 py-3 rounded-lg">Exit</a>
     </div>
 </form>

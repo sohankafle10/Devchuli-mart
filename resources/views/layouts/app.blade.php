@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard') }}" 
+                    <a href="{{ route('user.show') }}" 
                         class="block hover:bg-gray-200 p-4 rounded-lg font-bold text-xl @if (Route::is('dashboard.*'))bg-green-700 text-white hover:bg-green-600 @endif">
                         <i class="fas fa-users mr-2"></i> Users
                     </a>

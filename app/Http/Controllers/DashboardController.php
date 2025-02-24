@@ -24,5 +24,10 @@ class DashboardController extends Controller
         $users = User::where('role', 'user')->count();
         return view('dashboard',compact('categories','products', 'processing_order', 'pending_order', 'completed_order', 'users'));
     }
-   
+
+    public function user(){
+        $users = User::all();
+        return view('viewuser',compact('users'));
+    }
+        
 }
