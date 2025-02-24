@@ -10,24 +10,34 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function dashboard(){
-        $categories=Categories::count();
+    public function dashboard()
+    {
+        // Count total categories
+        $categories = Categories::count();
 
-        //if any specific matra condition lagayeyra nikalna
-        // $products= Product::where('status','show')->count();
+        // Count total products
+        $products = Product::count();
 
+        // Count orders with 'Processing' status
+        $processing_order = Order::where('status', 'Processing')->count();
 
-        $products= Product::count();
-        $processing_order = Product::where('status','Processing')->count();
-        $pending_order = Order::where('status','Pending')->count();
-        $completed_order = Order::where('status','Delivered')->count();
+        // Count orders with 'Pending' status
+        $pending_order = Order::where('status', 'Pending')->count();
+
+        // Count orders with 'Delivered' status (Completed orders)
+        $completed_order = Order::where('status', 'Delivered')->count();
+
+        // Count users with role 'user'
         $users = User::where('role', 'user')->count();
-        return view('dashboard',compact('categories','products', 'processing_order', 'pending_order', 'completed_order', 'users'));
+
+        // Return data to the dashboard view
+        return view('dashboard', compact('categories', 'products', 'processing_order', 'pending_order', 'completed_order', 'users'));
     }
 
-    public function user(){
+    // Method to view all users
+    public function user()
+    {
         $users = User::all();
-        return view('viewuser',compact('users'));
+        return view('viewuser', compact('users'));
     }
-        
 }

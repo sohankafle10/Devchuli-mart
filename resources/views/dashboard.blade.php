@@ -5,7 +5,6 @@
     <!-- Dashboard Header -->
     <div class="mb-8">
         <h1 class="text-4xl font-extrabold text-gray-900">Dashboard</h1>
-        <!-- <p class="text-sm text-gray-500">Overview of key metrics and statistics</p> -->
         <hr class="mt-4 border-t border-gray-300">
     </div>
 
@@ -72,10 +71,7 @@
         <canvas id="dashboardChart" class="w-full h-80"></canvas>
     </div>
 </div>
-
 @endsection
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -115,4 +111,3 @@
         }
     });
 </script>
-
