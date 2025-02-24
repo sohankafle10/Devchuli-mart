@@ -14,15 +14,14 @@
                     <thead>
                         <tr class="text-sm text-gray-700 uppercase bg-gray-100">
                             <th class="px-4 py-3 text-left">ID</th>
-                            <th class="px-4 py-3 text-left">Product</th>                            
-                            <th class="px-4 py-3 text-left">Photo</th>                     
-
+                            <th class="px-4 py-3 text-left">Product</th>
+                            <th class="px-4 py-3 text-left">Photo</th>
                             <th class="px-4 py-3 text-left">Quantity</th>
                             <th class="px-4 py-3 text-left">Price</th>
                             <th class="px-4 py-3 text-left">Status</th>
                             <th class="px-4 py-3 text-left">Payment Method</th>
                             <th class="px-4 py-3 text-left">Order Date</th>
-
+                            <th class="px-4 py-3 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,6 +42,7 @@
                                     @else
                                         <span class="text-red-500">Product not available</span>
                                     @endif
+                                </td>
                                 <td class="px-4 py-3">{{ $order->qty }}</td>
                                 <td class="px-4 py-3">Rs.{{ number_format($order->price, 2) }}</td>
                                 <td class="px-4 py-3">
@@ -57,12 +57,27 @@
                                                     : ($order->status == 'Completed'
                                                         ? 'bg-green-200 text-green-800'
                                                         : 'bg-red-200 text-red-800'))) }}">
+
                                         {{ $order->status }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-3">{{ $order->payment_method }}</td>
                                 <td class="px-4 py-3">{{ $order->created_at->format('d-m-Y') }}</td>
-
+                                <td class="px-4 py-3">
+                                    @if ($order->status == 'Pending')
+                                        <form action="{{ route('orders.cancel', $order->id) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="text-gray-500 text-sm">Cannot cancel</span>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -70,7 +85,4 @@
             </div>
         @endif
     </div>
-
-
 @endsection
-

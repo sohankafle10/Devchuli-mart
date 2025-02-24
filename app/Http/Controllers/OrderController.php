@@ -103,21 +103,27 @@ class OrderController extends Controller
             return back()->with('error', 'Order not found.');
         }
 
-        $order->status = $status;
-        $order->save();
+        // Update order status only if it's a valid status
+        $validStatuses = ['Pending', 'Processing', 'Shipping', 'Completed', 'Delivered', 'Cancelled'];
+        if (in_array($status, $validStatuses)) {
+            $order->status = $status;
+            $order->save();
 
-        // Send email notification
-        $data = [
-            'name' => $order->name,
-            'status' => $status,
-        ];
+            // Send email notification
+            $data = [
+                'name' => $order->name,
+                'status' => $status,
+            ];
 
-        Mail::send('mail.order', $data, function ($message) use ($order) {
-            $message->to($order->user->email, $order->name)
-                ->subject('Order Status');
-        });
+            Mail::send('mail.order', $data, function ($message) use ($order) {
+                $message->to($order->user->email, $order->name)
+                    ->subject('Order Status');
+            });
 
-        return back()->with('success', 'Order status updated to ' . $status);
+            return back()->with('success', 'Order status updated to ' . $status);
+        }
+
+        return back()->with('error', 'Invalid status update.');
     }
 
     public function myorder()
@@ -126,5 +132,20 @@ class OrderController extends Controller
         $orders = Order::where('user_id', Auth::id())->latest()->get();
 
         return view('myorder', compact('orders'));
+    }
+
+    public function cancel($id)
+    {
+        $order = Order::findOrFail($id);
+
+        // Check if order is pending before allowing cancellation
+        if ($order->status == 'Pending') {
+            $order->status = 'Cancelled';
+            $order->save();
+
+            return redirect()->back()->with('success', 'Order has been cancelled successfully.');
+        }
+
+        return redirect()->back()->with('error', 'You cannot cancel this order because it is ' . $order->status . '.');
     }
 }

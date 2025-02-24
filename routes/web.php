@@ -60,6 +60,12 @@ Route::get('/product/destroy/{id}',[ProductController::class,'destroy'])->name('
  //orders
  Route::get('/orders',[OrderController::class,'index'])->name('orders.index');
  Route::get('/orders/{id}/status/{status}',[OrderController::class,'status'])->name('orders.status');
+ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::post('/orders/store/{cartid}', [OrderController::class, 'store'])->name('orders.store');
+Route::post('/orders/storecod', [OrderController::class, 'storecod'])->name('orders.storecod');
+Route::patch('/orders/{id}/status/{status}', [OrderController::class, 'status'])->name('orders.status');
+Route::get('/myorders', [OrderController::class, 'myorder'])->name('orders.myorder');
+Route::patch('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 });
 
 //dashboard
@@ -78,10 +84,11 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
 
 
-
+Route::patch('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
 
 
